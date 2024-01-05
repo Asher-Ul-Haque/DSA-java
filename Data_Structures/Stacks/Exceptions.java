@@ -1,4 +1,4 @@
-package Stacks;
+package Data_Structures.Stacks;
 
 public class Exceptions extends Exception{
     public Exceptions(String message){

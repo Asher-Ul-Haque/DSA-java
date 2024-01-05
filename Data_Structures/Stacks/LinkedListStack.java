@@ -1,32 +1,32 @@
 //PACKAGES AND IMPORTS---
-package Stacks;
+package Data_Structures.Stacks;
 import java.util.Iterator;
 import java.util.Scanner;
 //--------------------------------------------------------------------------------
 
-public class LinkedListStack{
+public class LinkedListStack<Item>{
     //Important prerequisites
-    private Integer size = 0;
+    private Long size = 0L;
     private Node first = null;
     private final Exceptions handler = new Exceptions();
     //--------------------------------------------------------------------------------
 
     //Private classes
-    private final class StackIterator implements Iterator<Comparable>{
+    private final class StackIterator implements Iterator<Item>{
         private Node current = first;
 
         public boolean hasNext(){
             return current != null;
         }
 
-        public Comparable next(){
-            Comparable item = (Comparable) current.item;
+        public Item next(){
+            Item item = (Item) current.item;
             current = current.next;
             return item;
         }
     }
-    private final class Node<Comparable>{
-        Comparable item;
+    private final class Node<Item>{
+        Item item;
         Node next;
     }
     //--------------------------------------------------------------------------------
@@ -35,41 +35,41 @@ public class LinkedListStack{
     public boolean isEmpty(){
         return first==null;
     }
-    public Integer getSize(){
+    public Long getSize(){
         return size;
     }
     //--------------------------------------------------------------------------------
 
     //Push methods-
-    public void push(Comparable item){
+    public void push(Item item){
         Node previous = first;
         first = new Node();
         first.item = item;
         first.next = previous;
         size++;
     }
-    public void push(Comparable[] items){
+    public void push(Item[] items){
         for (int i = 0; i < items.length; i++){
             push(items[i]);
         }
     }
     public void push(){
         Scanner KeyboardInput = new Scanner(System.in);
-        push(KeyboardInput.next());
+        push((Item) KeyboardInput.next());
     }
     //--------------------------------------------------------------------------------
 
     //Pop methods-
-    public Comparable pop() throws Exceptions {
+    public Item pop() throws Exceptions {
         if (getSize()==0){
             handler.popFromEmptyStack();
         }
-        Comparable item = (Comparable) first.item;
+        Item item = (Item) first.item;
         first = first.next;
         size--;
         return item;
     }
-    public LinkedListStack popStack(int count) throws Exceptions{
+    public LinkedListStack pop(int count) throws Exceptions{
         if (count > size){
             handler.popMultipleFromEmptyStack();
         }
@@ -79,54 +79,28 @@ public class LinkedListStack{
         }
         return returnItems;
     }
-    public Comparable[] popArray(int count) throws Exceptions{
-        if (count > size){
-            handler.popMultipleFromEmptyStack();
-        }
-        Comparable[] returnItems = new Comparable[count];
-        for (int i = 0; i < count; i++){
-            returnItems[i] = pop();
-        }
-        return returnItems;
-    }
     //--------------------------------------------------------------------------------
 
     //Iterate and print methods
-    public Iterator<Comparable> iterator(){
+    public Iterator<Item> iterator(){
         return new StackIterator();
     }
     public void printStack(){
-        Iterator iteration = iterator();
-        if (iteration.hasNext()){
-            System.out.print(iteration.next());
-        }
-        while(iteration.hasNext()){
-            System.out.print(", ");
-            System.out.print(iteration.next());
-        }
+        System.out.println(this.toString());
     }
-    public void prettyPrintStack(){
+
+    @Override
+    public String toString() {
         Iterator iteration = iterator();
-
-        for (int i = 0; i < this.getSize()-1; i++){
-            System.out.print("=");
-        }
-        System.out.println("=");
-
+        String returnString ="[";
         if (iteration.hasNext()){
-            System.out.print(iteration.next());
-            System.out.print(" |");
+            returnString = returnString + String.valueOf(iteration.next());
         }
-
         while(iteration.hasNext()){
-            System.out.print(" | ");
-            System.out.print(iteration.next());
+            returnString = returnString + ", " + String.valueOf(iteration.next());
         }
-
-        for (int i = 0; i < this.getSize()-1; i++){
-            System.out.print("=");
-        }
-        System.out.println("=");
+        returnString = returnString +"]";
+        return returnString;
     }
     //--------------------------------------------------------------------------------
 
