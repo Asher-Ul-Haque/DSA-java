@@ -1,6 +1,6 @@
-package Data_Structures.Tests;
+package Tests.StackTests;
 
-import Data_Structures.Stacks.Exceptions;
+import Exceptions.Exceptions;
 import Data_Structures.Stacks.LinkedListStack;
 import java.util.Scanner;
 
@@ -15,8 +15,8 @@ public class LinkedListStackTest {
         Stack1.push(a);
         Stack1.push(b);
         Stack1.printStack();
-        Stack1.push(0.3);
-        Stack1.push("124ASher");
+        Stack1.allowAny(false);
+        Stack1.push("String");
         Stack1.printStack();
 
 
