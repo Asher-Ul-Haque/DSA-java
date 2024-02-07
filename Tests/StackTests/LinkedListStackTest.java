@@ -1,11 +1,11 @@
 package Tests.StackTests;
 
-import Exceptions.Exceptions;
+import Exceptions.StackQueueExceptions;
 import Data_Structures.Stacks.LinkedListStack;
 import java.util.Scanner;
 
 public class LinkedListStackTest {
-    public static void main(String[] args) throws Exceptions {
+    public static void main(String[] args) throws StackQueueExceptions {
         System.out.println("Testing begins");
         LinkedListStack Stack1 = new LinkedListStack<Integer[]>();
         Scanner Keyboard = new Scanner(System.in);

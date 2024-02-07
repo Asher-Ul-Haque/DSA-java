@@ -1,6 +1,6 @@
 //PACKAGES AND IMPORTS---
 package Data_Structures.Stacks;
-import Exceptions.Exceptions;
+import Exceptions.StackQueueExceptions;
 
 import java.util.Iterator;
 import java.util.Scanner;
@@ -11,7 +11,7 @@ public class LinkedListStack<Item>{
     private Long size = 0L;
     private Node first = null;
     private boolean allowAny = true;
-    private final Exceptions handler = new Exceptions();
+    private final StackQueueExceptions handler = new StackQueueExceptions();
     //--------------------------------------------------------------------------------
 
     //Private classes
@@ -46,7 +46,7 @@ public class LinkedListStack<Item>{
     //Push methods-
     private Node getLast(){
         Node returnNode =first;
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size - 1; i++){
             returnNode = returnNode.next;
         }
         return returnNode;
@@ -58,42 +58,40 @@ public class LinkedListStack<Item>{
         first.next = previous;
         size++;
     }
-    public void push(Item item) throws Exceptions {
+    public void push(Item item) throws StackQueueExceptions {
         if (allowAny || size == 0){
             allowPush(item);
         }
-        else if(size > 0 && item.getClass() == getLast().getClass()){
+        else if(size > 0 && item.getClass() == getLast().item.getClass()){
             allowPush(item);
         }
         else{
-            handler.pushBadDataType(getLast().getClass());
+            handler.pushBadDataType(getLast().item.getClass());
         }
-
-
     }
-    public void push(Item[] items) throws Exceptions {
+    public void push(Item[] items) throws StackQueueExceptions {
         for (int i = 0; i < items.length; i++){
             push(items[i]);
         }
     }
-    public void push() throws Exceptions {
+    public void push() throws StackQueueExceptions {
         Scanner KeyboardInput = new Scanner(System.in);
         push((Item) KeyboardInput.next());
     }
-    public void push(LinkedListStack items) throws Exceptions {
+    public void push(LinkedListStack items) throws StackQueueExceptions {
         while(!items.isEmpty()){
             push((Item) items.pop());
         }
     }
-    public void push(ArrayStack items) throws Exceptions {
-        for (Comparable item: items.iterator()) {
+    public void push(ArrayStack items) throws StackQueueExceptions {
+        for (Object item: items.iterator()) {
             push((Item) item);
         }
     }
     //--------------------------------------------------------------------------------
 
     //Pop methods-
-    public Item pop() throws Exceptions {
+    public Item pop() throws StackQueueExceptions {
         if (getSize()==0){
             handler.popFromEmptyStack();
         }
@@ -102,7 +100,7 @@ public class LinkedListStack<Item>{
         size--;
         return item;
     }
-    public LinkedListStack pop(int count) throws Exceptions{
+    public LinkedListStack pop(int count) throws StackQueueExceptions {
         if (count > size){
             handler.popMultipleFromEmptyStack();
         }

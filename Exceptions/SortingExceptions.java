@@ -25,7 +25,7 @@ public class SortingExceptions extends Exception{
                 "decades ?");
     }
 
-    protected void pushBadDataType(Class Correction) throws Exceptions {
-        throw new Exceptions("Attempted to push wrong type of data, use dataype: " + Correction);
+    protected void pushBadDataType(Class Correction) throws StackQueueExceptions {
+        throw new StackQueueExceptions("Attempted to push wrong type of data, use dataype: " + Correction);
     }
 }

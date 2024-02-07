@@ -10,12 +10,22 @@ public class Sorter {
     //Important prerequisities
     private final SortingExceptions handler = new SortingExceptions();
     private Comparable[] array;
-    private Long lastSortingTime;
+    private long lastSortingTime;
     //--------------------------------------------------------------------------------
 
     //Set array
     public void setArray(Comparable[] array) {
         this.array = array;
+    }
+    public void setArray(Comparable[] array, int index){
+        Comparable[] temp = new Comparable[index];
+        for (int i = 0; i <= index; i++){
+            temp[i] = array[i];
+        }
+        setArray(temp);
+    }
+    public void setIndex(int index){
+        setArray(this.array, index);
     }
     //--------------------------------------------------------------------------------
 
@@ -113,7 +123,7 @@ public class Sorter {
             if (i >= j){
                 break;
             }
-            swap(low, j);
+            swap(i, j);
         }
         swap(low, j);
         return j;
@@ -145,6 +155,31 @@ public class Sorter {
     public void selectionSort(Comparable[] inputarray) throws SortingExceptions {
         array = inputarray;
         selectionSort();
+    }
+    //--------------------------------------------------------------------------------
+
+    //BUBBLE SORT-
+    public void bubbleSort() throws SortingExceptions {
+        long startTime = System.nanoTime();
+        if (array.length == 0)
+        {
+            lastSortingTime = System.nanoTime() - startTime;
+            return;
+        }
+        for (int i = 1; i < array.length - 1; i++)
+        {
+            for (int j = array.length; j < i+1; j--)
+            {
+                if (less(array[j], array[j-1]))
+                    swap(j, j-1);
+            }
+        }
+        lastSortingTime = System.nanoTime() - startTime;
+        return;
+    }
+    public void bubbleSort(Comparable[] inputArray) throws SortingExceptions {
+        array = inputArray;
+        bubbleSort();
     }
     //--------------------------------------------------------------------------------
 
@@ -232,7 +267,21 @@ public class Sorter {
     }
     //--------------------------------------------------------------------------------
 
-    //SHUFFLE
+    //HITLER SORT-
+    public void hitlerSort() throws SortingExceptions {
+        long startTime = System.nanoTime();
+        Comparable[] temp = new Comparable[1];
+        temp[0] = array[0];
+        array = temp;
+        lastSortingTime = System.nanoTime() - startTime;
+    }
+    public void hitlerSort(Comparable[] inputArray) throws SortingExceptions {
+        array = inputArray;
+        hitlerSort();
+    }
+    //--------------------------------------------------------------------------------
+
+    //SHUFFLE AND REVERSE AND CHECK IF SORTED
     public void shuffle(){
         Random generator = new Random();
         for (int i = 1; i < array.length; i++){
@@ -243,6 +292,32 @@ public class Sorter {
         setArray(inputArray);
         shuffle();
     }
+    public Comparable[] reverse(Comparable[] array){
+        Comparable[] temp = new Comparable[array.length];
+        for (int i = 0; i < array.length; i++){
+            temp[i] = array[array.length - 1 - i];
+        }
+        return temp;
+    }
+    public Comparable[] reverse(){
+        return reverse(this.array);
+    }
+    public boolean isSorted() throws SortingExceptions {
+        for (int i = 0; i < array.length - 1; i++) {
+            if (less(array[i + 1], array[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isSorted(Comparable[] array) throws SortingExceptions {
+        this.array = array;
+        if (this.array.length < 2){
+            return true;
+        }
+        return isSorted();
+    }
+
     //--------------------------------------------------------------------------------
 
     //Print Array
@@ -256,10 +331,14 @@ public class Sorter {
         return returnString;
     }
     //Get lastSortedTime
-    public String getLastSortingTime(){
-        return String.valueOf(lastSortingTime) + " nano seconds taken";
+    public Long getLastSortingTime(){
+        return lastSortingTime;
     }
     public String getLastSortingTime(String format) throws SortingExceptions {
+        if (format.equals("nanoseconds"))
+        {
+            return String.valueOf(lastSortingTime) + " nano seconds taken";
+        }
         if (format.equals("seconds")){
             return String.valueOf((double) lastSortingTime/1000000000) + " seconds taken";
         }
@@ -286,6 +365,4 @@ public class Sorter {
             return "Error";
         }
     }
-
-
 }
